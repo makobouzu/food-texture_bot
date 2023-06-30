@@ -1,12 +1,12 @@
 import { OpenAIApi, Configuration } from 'openai'
 
 let configuration = new Configuration({
-    apiKey: process.env.NEXT_PUBLIC_OPENAI_KEY,
+    apiKey: "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",
 });
 delete configuration.baseOptions.headers['User-Agent'];
 const openai = new OpenAIApi(configuration);
 
-export async function getCompletions(text, role, messages) {
+export async function getCompletions(text, role) {
     let conversations = [{role: "system", content: role}];
     
     conversations.push({
