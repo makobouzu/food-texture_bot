@@ -5,7 +5,7 @@ import { Box, Button, Center, Input, InputGroup, InputLeftElement, SimpleGrid, S
 import { FaPenNib} from "react-icons/fa";
 import { getCompletions } from '@/lib/openai-completions';
 
-let ROLE_PLAY = `与えられた文章を用いて、ウィットに飛んだオノマトペを一つ返してください。その際、オノマトペは必ず造語で「スパスパ」や「ゴムゴム」のように単語２個並べて4文字を作ってください。`
+let ROLE_PLAY = `与えられた文章を用いて、ウィットに飛んだオノマトペを日本語で一つ返してください。その際、オノマトペは必ず造語で「スパスパ」や「ゴムゴム」のように単語２個並べて4文字を作ってください。`
 
 export default function Home() {
   const [botmessage, setBotmessage] = useState();
@@ -55,10 +55,12 @@ export default function Home() {
                 <Input placeholder='文章を入力してください。' value={chat} onChange={(e) => setChat(e.target.value)} />
               </InputGroup>
               <Button colorScheme='blue' onClick={async () => {
-                const reply = await getCompletions(chat, roleplay);
-                setBotmessage(reply);
+                if(chat != ""){
+                  const reply = await getCompletions(chat, roleplay);
+                  setBotmessage(reply);
             
-                setChat("");
+                  setChat("");
+                }
               }}>
                 送信
               </Button>
