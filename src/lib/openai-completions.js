@@ -17,8 +17,8 @@ export async function getCompletions(text, role) {
     const response = await openai.createChatCompletion({
         model: 'gpt-3.5-turbo',
         messages: conversations,
-        temperature: 1.2,
-        presence_penalty: 0.5,
+        temperature: 0.8,
+        presence_penalty: -0.5,
         max_tokens: 100,
       });
       
