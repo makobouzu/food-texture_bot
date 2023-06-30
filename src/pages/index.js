@@ -45,9 +45,9 @@ export default function Home() {
                 <Text fontSize='6xl'>{botmessage}</Text>
               </Center>
               <Spacer mt={20} />
-              <Center>
+              {/* <Center>
                 <Textarea placeholder='プロンプトの設定をしてください。' value={roleplay} onChange={(e) => setRoleplay(e.target.value)} />
-              </Center>
+              </Center> */}
               <InputGroup>
                 <InputLeftElement pointerEvents='none'>
                   <FaPenNib color='gray.300'/>

@@ -1,7 +1,7 @@
 import { OpenAIApi, Configuration } from 'openai'
 
 let configuration = new Configuration({
-    apiKey: "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",
+    apiKey: process.env.NEXT_PUBLIC_OPENAI_KEY,
 });
 delete configuration.baseOptions.headers['User-Agent'];
 const openai = new OpenAIApi(configuration);
