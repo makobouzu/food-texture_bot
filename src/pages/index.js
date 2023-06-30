@@ -5,7 +5,7 @@ import { Box, Button, Center, Input, InputGroup, InputLeftElement, SimpleGrid, S
 import { FaPenNib} from "react-icons/fa";
 import { getCompletions } from '@/lib/openai-completions';
 
-let ROLE_PLAY = `与えられた文章を用いて、ウィットに飛んだオノマトペを一つ返してください。その際、オノマトペは造語で「スパスパ」や「ゴムゴム」のように単語を２回並べて作ってください。`
+let ROLE_PLAY = `与えられた文章を用いて、ウィットに飛んだオノマトペを一つ返してください。その際、オノマトペは必ず造語で「スパスパ」や「ゴムゴム」のように単語２個並べて4文字を作ってください。`
 
 export default function Home() {
   const [botmessage, setBotmessage] = useState();
