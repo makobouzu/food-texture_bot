@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useState} from "react";
-import { Box, Button, Center, Input, InputGroup, InputLeftElement, SimpleGrid, Spacer, Stack, Text, Textarea} from '@chakra-ui/react';
+import { Box, Button, Center, Container, Input, InputGroup, InputLeftElement, SimpleGrid, Spacer, Stack, Text, Textarea} from '@chakra-ui/react';
 
 import { FaPenNib} from "react-icons/fa";
 import { getCompletions } from '@/lib/openai-completions';
@@ -33,12 +33,11 @@ export default function Home() {
       </Head>
 
       <Box width={"100%"} bgPosition={"center"} bgSize={"cover"} >
-        <SimpleGrid columns={{base:1, sm: 1, md: 1, lg: 1}} spacing={10}>
-          <Box ml={5} mr={5}>
+          <Box ml={15} mr={15}>
             <Spacer mt={5}/>
             <Stack spacing={4}>
               <Center>
-                <Text>なんでもオノマトペで返してくれるBOT</Text>
+                <Text as='mark'>なんでもオノマトペで返してくれるBOT</Text>
               </Center>
                 <Spacer mt={5} />
               <Center>
@@ -67,7 +66,6 @@ export default function Home() {
             </Stack>
           </Box>
           <Spacer mt={5}/>
-        </SimpleGrid>      
       </Box>
     </>
   )
