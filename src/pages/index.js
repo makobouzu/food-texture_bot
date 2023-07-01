@@ -1,9 +1,13 @@
 import Head from 'next/head'
-import { useState} from "react";
+import { db } from '@/lib/firebase';
+import { addDoc, collection, doc, onSnapshot, orderBy, query} from 'firebase/firestore'
+import { useState, useEffect} from "react";
 import { Box, Button, Center, Container, Input, InputGroup, InputLeftElement, SimpleGrid, Spacer, Stack, Text, Textarea} from '@chakra-ui/react';
 
 import { FaPenNib} from "react-icons/fa";
 import { getCompletions } from '@/lib/openai-completions';
+import { getEmbeddings} from '@/lib/openai-embeddings';
+import similarity from 'wink-nlp/utilities/similarity.js';
 
 let ROLE_PLAY = `与えられた文章を用いて、ウィットに飛んだオノマトペを日本語で一つ返してください。その際、オノマトペは必ず造語で「スパスパ」や「ゴムゴム」のように単語２個並べて4文字を作ってください。`
 
@@ -11,6 +15,24 @@ export default function Home() {
   const [botmessage, setBotmessage] = useState();
   const [roleplay, setRoleplay] = useState(ROLE_PLAY);
   const [chat, setChat] = useState([]);
+  const [dbcontent, setDbcontent] = useState([]);
+
+  useEffect(() => {
+    const collectionRef = collection(db, "message");
+    const q = query(collectionRef, orderBy("timestamp", "asc"));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const m = [];
+      snapshot.forEach((doc) => {
+        m.push({
+          ...doc.data()
+        });
+      })
+      setDbcontent(m);
+      console.log(m)
+    });
+    return (() => unsubscribe());
+  }, []);
 
   return (
     <>
@@ -57,6 +79,22 @@ export default function Home() {
                 if(chat != ""){
                   const reply = await getCompletions(chat, roleplay);
                   setBotmessage(reply);
+
+                  const vector = await getEmbeddings(chat);
+                  console.log(vector)
+
+                  // 高次元での検索
+                  // let vecList = [];
+                  // dbcontent.map((msg, index) => {
+                  //   const vectorSimilarity = similarity.bow.cosine(vector, msg.vector);
+                  //   vecList.push([msg.text, vectorSimilarity]);
+                  // });
+                  // console.log(vecList);
+
+                  // xy座標の割り出し
+
+                  // マッピング
+
             
                   setChat("");
                 }
