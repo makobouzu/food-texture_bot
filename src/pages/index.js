@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import { db } from '@/lib/firebase'
 import { useEffect, useState} from "react";
-import { addDoc, collection, onSnapshot, orderBy, query} from 'firebase/firestore'
-import { Box, Button, Center, Input, InputGroup, InputLeftElement, SimpleGrid, Spacer, Stack, Text} from '@chakra-ui/react';
+import { collection, onSnapshot, orderBy, query} from 'firebase/firestore'
+import { Box, Button, Center, Input, InputGroup, InputLeftElement, Spacer, Stack, Text} from '@chakra-ui/react';
 import { FaPenNib} from "react-icons/fa";
 import { getCompletions } from '@/lib/openai-completions';
 import { getEmbeddings} from '@/lib/openai-embeddings';
