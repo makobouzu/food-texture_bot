@@ -17,7 +17,7 @@ export default function Home() {
   const [dbcontent, setDbcontent] = useState([]);
 
   useEffect(() => {
-    const collectionRef = collection(db, "message");
+    const collectionRef = collection(db, "vector");
     const q = query(collectionRef, orderBy("timestamp", "asc"));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -28,7 +28,6 @@ export default function Home() {
         });
       })
       setDbcontent(m);
-      console.log(m)
     });
     return (() => unsubscribe());
   }, []);
@@ -80,15 +79,18 @@ export default function Home() {
                   setBotmessage(reply);
 
                   const vector = await getEmbeddings(chat);
-                  console.log(vector)
+                  // console.log(vector)
 
                   // 高次元での検索
-                  // let vecList = [];
-                  // dbcontent.map((msg, index) => {
-                  //   const vectorSimilarity = similarity.bow.cosine(vector, msg.vector);
-                  //   vecList.push([msg.text, vectorSimilarity]);
-                  // });
-                  // console.log(vecList);
+                  let vecList = [];
+                  dbcontent.map((msg, index) => {
+                    const vectorSimilarity = similarity.bow.cosine(vector, msg.vector);
+                    vecList.push([msg.text, vectorSimilarity, msg.xy]);
+                  });
+                  vecList.sort(function(first, second){
+                    return first[1] - second[1];
+                  });
+                  console.log(vecList.slice(-4));
 
                   // xy座標の割り出し
 
