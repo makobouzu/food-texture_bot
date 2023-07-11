@@ -7,14 +7,19 @@ import { FaPenNib} from "react-icons/fa";
 import { getCompletions } from '@/lib/openai-completions';
 import { getEmbeddings} from '@/lib/openai-embeddings';
 import similarity from 'wink-nlp/utilities/similarity.js';
+import Three from '@/components/datavisualization';
+import Inner from '@/components/datavisualization';
+
 
 let ROLE_PLAY = `与えられた文章を用いて、ウィットに飛んだオノマトペを日本語で一つ返してください。その際、オノマトペは必ず造語で「スパスパ」や「ゴムゴム」のように単語２個並べて4文字を作ってください。`
+const data = [["test1", [0, 0]], ["test2", [1, 1]], ["test3", [2, 2]]];
 
 export default function Home() {
   const [botmessage, setBotmessage] = useState();
   const [roleplay, setRoleplay] = useState(ROLE_PLAY);
   const [chat, setChat] = useState([]);
   const [dbcontent, setDbcontent] = useState([]);
+  const [pos, setPos] = useState();
 
   useEffect(() => {
     const collectionRef = collection(db, "vector");
@@ -79,7 +84,6 @@ export default function Home() {
                   setBotmessage(reply);
 
                   const vector = await getEmbeddings(chat);
-                  // console.log(vector)
 
                   // 高次元での検索
                   let vecList = [];
@@ -90,9 +94,21 @@ export default function Home() {
                   vecList.sort(function(first, second){
                     return first[1] - second[1];
                   });
-                  console.log(vecList.slice(-4));
-
+                  const sliceList = vecList.slice(-4);
+                  console.log(sliceList);
+                  
                   // xy座標の割り出し
+                  let sum = 0;
+                  for(let i = 0; i < sliceList.length; ++i){
+                    sum = sum + sliceList[i][1];
+                  }
+                  let xy = [0, 0];
+                  for(let i = 0; i < sliceList.length; ++i){
+                    xy[0] = xy[0] + sliceList[i][1]/sum * sliceList[i][2][0];
+                    xy[1] = xy[1] + sliceList[i][1]/sum * sliceList[i][2][1];
+                  }
+                  console.log(xy)
+                  setPos(xy);
 
                   // マッピング
 
@@ -105,6 +121,7 @@ export default function Home() {
             </Stack>
           </Box>
           <Spacer mt={5}/>
+          <Three />
       </Box>
     </>
   )
